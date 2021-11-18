@@ -100,13 +100,27 @@ class allGroceryViewController: UIViewController, UITableViewDelegate, UITableVi
                 let user = self.user
             else { return }
             
+            
+            //replace unaccepted string in firebase
+            var saveTxt = text.replacingOccurrences(of: ".", with: "-")
+            print("without dot\(saveTxt)")
+                  saveTxt = saveTxt.replacingOccurrences(of: ",", with: "-")
+                  saveTxt = saveTxt.replacingOccurrences(of: "[", with: "-")
+                  saveTxt = saveTxt.replacingOccurrences(of: "]", with: "-")
+                  saveTxt = saveTxt.replacingOccurrences(of: "#", with: "-")
+                  saveTxt = saveTxt.replacingOccurrences(of: "$", with: "-")
+            saveTxt = saveTxt.replacingOccurrences(of: " ", with: "-")
+            
+            
             //add item details to database
             let groceryItem = GroceryItem(
                 name: text,
                 addedByUser: user.email,
                 completed: false)
             
-            let groceryItemRef = self.ref.child(text.lowercased())
+            
+            
+            let groceryItemRef = self.ref.child(saveTxt.lowercased())
             groceryItemRef.setValue(groceryItem.toAnyObject())
             
         }
@@ -155,6 +169,19 @@ class allGroceryViewController: UIViewController, UITableViewDelegate, UITableVi
                 let oldGroceryItem = self.items[indexPath.row]
                 oldGroceryItem.ref?.removeValue()
                 
+                
+                //replace unaccepted string in firebase
+                var saveTxt = text.replacingOccurrences(of: ".", with: "-")
+                print("without dot\(saveTxt)")
+                      saveTxt = saveTxt.replacingOccurrences(of: ",", with: "-")
+                      saveTxt = saveTxt.replacingOccurrences(of: "[", with: "-")
+                      saveTxt = saveTxt.replacingOccurrences(of: "]", with: "-")
+                      saveTxt = saveTxt.replacingOccurrences(of: "#", with: "-")
+                      saveTxt = saveTxt.replacingOccurrences(of: "$", with: "-")
+                saveTxt = saveTxt.replacingOccurrences(of: " ", with: "-")
+                
+                
+                
                 //Edit item details to database
                 let groceryItem = GroceryItem(
                     name: text,
@@ -162,7 +189,7 @@ class allGroceryViewController: UIViewController, UITableViewDelegate, UITableVi
                     completed: false)
                 
                 
-                let groceryItemRef = self.ref.child(text.lowercased())
+                let groceryItemRef = self.ref.child(saveTxt.lowercased())
                 groceryItemRef.setValue(groceryItem.toAnyObject())
                 
                 
